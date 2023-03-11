@@ -18,4 +18,63 @@ MAX_Y = 600
 # function that calculates the euclidean distance from another person 
 # object.
 class Person:
-    pass
+    def __init__(self, name:str='player 1', x:int=0, y:int=0):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.size:float = 1
+
+    ##############################
+    ### ACCESSORS AND MUTATORS ###
+    ##############################
+
+    # NAME
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not (len(value) <= 2):
+            self._name = 'player 1'
+        else:
+            self._name = value
+    # X
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        if (value < 0):
+            self._x = 0
+        elif(value > MAX_X):
+            self._x = MAX_X
+        else:
+            self._x = value
+    
+    # Y
+    @property
+    def y(self):
+        return self._y
+    
+    @y.setter
+    def y (self, value):
+        if (value < 0):
+            self._y = 0
+        elif(value > MAX_Y):
+            self._y = MAX_Y
+        else:
+            self._y = value
+    
+    # SIZE
+    @property
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        if (value < 1):
+            self._size = self._size
+        else:
+            self._size = value
