@@ -78,3 +78,25 @@ class Person:
             self._size = self._size
         else:
             self._size = value
+
+    #################
+    ### FUNCTIONS ###
+    #################
+
+    def goLeft(val):
+        pass
+
+    def goRight(val):
+        pass
+
+    def goUp(val):
+        pass
+
+    def goDown(val):
+        pass
+
+    def getDistance(other):
+        pass
+
+    def __str__(self):
+        pass
