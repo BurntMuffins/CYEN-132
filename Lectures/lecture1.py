@@ -1,1 +1,0 @@
-# Somthing happened this lecture
