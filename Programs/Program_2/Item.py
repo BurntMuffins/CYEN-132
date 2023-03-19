@@ -24,7 +24,7 @@ class Item:
         self.name = name
         self.x = x
         self.y = y
-        self.size:float = 1
+        self.size:float = 1.0
 
     ##############################
     ### ACCESSORS AND MUTATORS ###

@@ -1,7 +1,7 @@
 #####################################################################
-# author:   
-# date:    
-# description: 
+# author: Aidan Schaubhut
+# date: 3/19/23
+# description: A game
 #####################################################################
 import pygame
 from random import randint, choice
@@ -10,7 +10,43 @@ from Constants import *
 
 
 class Person(pygame.sprite.Sprite, Item):
-    pass
+    def __init__(self) -> None:
+        self.color = self.setColor()
+        self.surf = pygame.Surface(Item.size, Item.size)
+
+    def setColor(self):
+        self.color = choice(COLORS)
+
+    def setSize(self):
+        Item.size = randint(10, 100)
+        self.surf = pygame.Surface(Item.size, Item.size)
+    
+    def update(self, pressedKey):
+        match pressedKey:
+            case [K_UP]:
+                Item.goUp()
+            case [K_DOWN]:
+                Item.goDown()
+            case [K_LEFT]:
+                Item.goLeft()
+            case [K_RIGHT]:
+                Item.goRight()
+            case [K_SPACE]:
+                self.setColor()
+                self.setSize()
+
+    def setRandomPosition(self):
+        Item.x = randint(0, WIDTH)
+        Item.y = randint(0, HEIGHT)
+    
+    def getPosition(self) -> tuple:
+        x = Item.x-Item.size/2
+        y = Item.x-Item.size/2
+        return x, y
+
+    def __str__(self) -> str:
+        return super().__str__() + f'color= {self.color}'
+
 
 
 
