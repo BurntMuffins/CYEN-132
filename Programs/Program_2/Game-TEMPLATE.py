@@ -22,18 +22,17 @@ class Person(pygame.sprite.Sprite, Item):
         self.surf = pygame.Surface(Item.size, Item.size)
     
     def update(self, pressedKey):
-        match pressedKey:
-            case [K_UP]:
-                Item.goUp()
-            case [K_DOWN]:
-                Item.goDown()
-            case [K_LEFT]:
-                Item.goLeft()
-            case [K_RIGHT]:
-                Item.goRight()
-            case [K_SPACE]:
-                self.setColor()
-                self.setSize()
+        if pressedKey[K_UP]:
+            Item.goUp
+        if pressedKey[K_DOWN]:
+            Item.goDown
+        if pressedKey[K_LEFT]:
+            Item.goLeft
+        if pressedKey[K_RIGHT]:
+            Item.goRight
+        if pressedKey[K_SPACE]:
+            self.setSize()
+            self.setColor()
 
     def setRandomPosition(self):
         Item.x = randint(0, WIDTH)
