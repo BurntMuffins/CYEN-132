@@ -11,40 +11,46 @@ from Constants import *
 
 class Person(pygame.sprite.Sprite, Item):
     def __init__(self) -> None:
-        self.color = self.setColor()
-        self.surf = pygame.Surface(Item.size, Item.size)
+        super().__init__()
+        Item.__init__(self, 'name')
+        self.color = choice(COLORS)
+        self.surf = pygame.Surface((self.size, self.size))
 
+    # Function tht sets the color of the square
     def setColor(self):
         self.color = choice(COLORS)
+        self.surf.fill((self.color))
 
+    # Sets the size of the square
     def setSize(self):
-        Item.size = randint(10, 100)
-        self.surf = pygame.Surface(Item.size, Item.size)
+        self.size = randint(10, 100)
+        self.surf = pygame.Surface((self.size, self.size))
     
+    # Updates the squares position
     def update(self, pressedKey):
         if pressedKey[K_UP]:
-            Item.goUp
+            self.goUp()
         if pressedKey[K_DOWN]:
-            Item.goDown
+            self.goDown()
         if pressedKey[K_LEFT]:
-            Item.goLeft
+            self.goLeft()
         if pressedKey[K_RIGHT]:
-            Item.goRight
+            self.goRight()
         if pressedKey[K_SPACE]:
             self.setSize()
             self.setColor()
 
     def setRandomPosition(self):
-        Item.x = randint(0, WIDTH)
-        Item.y = randint(0, HEIGHT)
+        self.x = randint(0, WIDTH)
+        self.y = randint(0, HEIGHT)
     
     def getPosition(self) -> tuple:
-        x = Item.x-Item.size/2
-        y = Item.x-Item.size/2
+        x = self.x-self.size/2
+        y = self.x-self.size/2
         return x, y
 
     def __str__(self) -> str:
-        return super().__str__() + f'color= {self.color}'
+        return super().__str__() + f' color= {self.color}'
 
 
 
