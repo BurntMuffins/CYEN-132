@@ -1,7 +1,7 @@
 #####################################################################
 # author: Aidan Schaubhut
 # date: 3/19/23
-# description: A game
+# description: Move a box around the screen with the arrow keys
 #####################################################################
 import pygame
 from random import randint, choice
@@ -30,28 +30,29 @@ class Person(pygame.sprite.Sprite, Item):
     # Updates the squares position
     def update(self, pressedKey):
         if pressedKey[K_UP]:
-            # self.goUp()
-            self.x -= 1
-            print(self.x, self.y)
-        elif pressedKey[K_DOWN]:
+            self.goUp()
+        if pressedKey[K_DOWN]:
             self.goDown()
-        elif pressedKey[K_LEFT]:
+        if pressedKey[K_LEFT]:
             self.goLeft()
-        elif pressedKey[K_RIGHT]:
+        if pressedKey[K_RIGHT]:
             self.goRight()
-        elif pressedKey[K_SPACE]:
+        if pressedKey[K_SPACE]:
             self.setSize()
             self.setColor()
 
+    # Sets the square to a random position on the screen
     def setRandomPosition(self):
         self.x = randint(0, WIDTH)
         self.y = randint(0, HEIGHT)
     
+    # Gets the position of the square
     def getPosition(self) -> tuple:
         x = self.x-self.size/2
-        y = self.x-self.size/2
+        y = self.y-self.size/2
         return (x, y)
 
+    # Overloads the string to print the object
     def __str__(self) -> str:
         return super().__str__() + f' color= {self.color}'
 
