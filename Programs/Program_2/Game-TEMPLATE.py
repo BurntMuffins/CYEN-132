@@ -12,9 +12,10 @@ from Constants import *
 class Person(pygame.sprite.Sprite, Item):
     def __init__(self) -> None:
         super().__init__()
-        Item.__init__(self, 'name')
-        self.color = choice(COLORS)
-        self.surf = pygame.Surface((self.size, self.size))
+        Item.__init__(self)
+        self.setSize()
+        self.setColor()
+        self.setRandomPosition()
 
     # Function tht sets the color of the square
     def setColor(self):
@@ -29,14 +30,16 @@ class Person(pygame.sprite.Sprite, Item):
     # Updates the squares position
     def update(self, pressedKey):
         if pressedKey[K_UP]:
-            self.goUp()
-        if pressedKey[K_DOWN]:
+            # self.goUp()
+            self.x -= 1
+            print(self.x, self.y)
+        elif pressedKey[K_DOWN]:
             self.goDown()
-        if pressedKey[K_LEFT]:
+        elif pressedKey[K_LEFT]:
             self.goLeft()
-        if pressedKey[K_RIGHT]:
+        elif pressedKey[K_RIGHT]:
             self.goRight()
-        if pressedKey[K_SPACE]:
+        elif pressedKey[K_SPACE]:
             self.setSize()
             self.setColor()
 
@@ -47,7 +50,7 @@ class Person(pygame.sprite.Sprite, Item):
     def getPosition(self) -> tuple:
         x = self.x-self.size/2
         y = self.x-self.size/2
-        return x, y
+        return (x, y)
 
     def __str__(self) -> str:
         return super().__str__() + f' color= {self.color}'

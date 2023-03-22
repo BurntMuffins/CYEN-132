@@ -92,36 +92,24 @@ class Item:
     #################
 
     # Decreases the person's x value by the given amount or by 1 if given None
-    def goLeft(self, val=None):
-        if val == None:
-            self.x -= 1
-        else:
-            self.x -= val
+    def goLeft(self, val=1):
+        self.x -= val
 
     # Increases the person's x value by the given amount or by 1 if given None
-    def goRight(self, val=None):
-        if val == None:
-            self.x += 1
-        else:
-            self.x += val
+    def goRight(self, val=1):
+        self.x += val
 
     # Decreases the person's y value by the given amount or by 1 if given None
-    def goUp(self, val=None):
-        if val == None:
-            self.y -= 1
-        else:
-            self.y -= val
+    def goUp(self, val=1):
+        self.y -= val
 
     # Increases the person's y value by the given amount or by 1 if given None
-    def goDown(self, val=None):
-        if val == None:
-            self.y += 1
-        else:
-            self.y += val
+    def goDown(self, val=1):
+        self.y += val
 
     # Calculates the distance between to Person objects 
-    def getDistance(self, other):
-        return math.dist([self.x, self.y], [other.x, other.y])
+    # def getDistance(self, other):
+        # return math.dist([self.x, self.y], [other.x, other.y])
 
     # Creates the string that is returned when a Person object is printed
     def __str__(self):
