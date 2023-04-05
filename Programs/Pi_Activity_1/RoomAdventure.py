@@ -114,10 +114,10 @@ class Game(Frame):
 
 	# creates the rooms
 	def createRooms(self):
-		r1 = Room("Room 1", "images/room1.gif") 
-		r2 = Room("Room 2", "images/room2.gif") 
-		r3 = Room("Room 3", "images/room3.gif") 
-		r4 = Room("Room 4", "images/room4.gif") 
+		r1 = Room("Room 1", "Programs/Pi_Activity_1/images/room1.gif") 
+		r2 = Room("Room 2", "Programs/Pi_Activity_1/images/room2.gif") 
+		r3 = Room("Room 3", "Programs/Pi_Activity_1/images/room3.gif") 
+		r4 = Room("Room 4", "Programs/Pi_Activity_1/images/room4.gif") 
 
 		# exits for r1
 		r1.addExit("east", r2)
@@ -193,7 +193,7 @@ class Game(Frame):
 	# sets the current room image
 	def setRoomImage(self):
 		if Game.currentRoom == None:
-			Game.img = PhotoImage(file="images/skull.gif")
+			Game.img = PhotoImage(file="Programs/Pi_Activity_1/images/skull.gif")
 		else:
 			Game.img = PhotoImage(file=Game.currentRoom.image)
 		
