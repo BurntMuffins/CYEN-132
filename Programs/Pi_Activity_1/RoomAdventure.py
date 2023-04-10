@@ -18,7 +18,7 @@ class Room:
 		self.image = image
 		self.exits = {}
 		self.items = {}
-		self.grabbables = []
+		self.grabbables = {}
 
 	# getters and setters for the instance variables
 	@property
@@ -77,15 +77,15 @@ class Room:
 
 	# adds a grabbable item to the room
 	# the item is a string (e.g., key)
-	def addGrabbable(self, item):
+	def addGrabbable(self, item, desc):
 		# append the item to the list
-		self._grabbables.append(item)
+		self._grabbables[item] = desc
 
 	# removes a grabbable item from the room
 	# the item is a string (e.g., key)
 	def delGrabbable(self, item):
-		# remove the item from the list
-		self._grabbables.remove(item)
+		# remove the item from the dictionary
+		del self._grabbables[item]
 
 	# returns a string description of the room
 	def __str__(self):
@@ -116,7 +116,7 @@ class Game(Frame):
 	# creates the rooms
 	def createRooms(self):
 		r1 = Room("Room 1", filePath+"room1.gif") 
-		r2 = Room("Room 2", filePath+"/room2.gif") 
+		r2 = Room("Room 2", filePath+"room2.gif") 
 		r3 = Room("Room 3", filePath+"room3.gif") 
 		r4 = Room("Room 4", filePath+"room4.gif") 
 
@@ -125,7 +125,7 @@ class Game(Frame):
 		r1.addExit("south", r3)
 
 		# grabbables for r1
-		r1.addGrabbable("key")
+		r1.addGrabbable("key", 'A golden key with "Chest" written on it')
 		
 		# items for r1
 		r1.addItem("chair", "It is made of wicker and no one is sitting on it.")
@@ -144,7 +144,7 @@ class Game(Frame):
 		r3.addExit("east", r4)
 
 		# add grabbables to r3
-		r3.addGrabbable("book")
+		r3.addGrabbable("book", 'An old tattered book')
 
 		# add items to r3
 		r3.addItem("bookshelves", "They are empty. Go figure.")
@@ -158,7 +158,7 @@ class Game(Frame):
 		r4.addExit("south", None) # DEATH
 
 		# add grabbables to r4
-		r4.addGrabbable("6-pack")
+		r4.addGrabbable("6-pack", "This is definetly coming with me")
 		r4.addItem("brew_rig", "Gourd is brewing some sort of oatmeal stout on \
 			the brew rig. A 6-pack is resting beside it.")
 		
@@ -211,7 +211,9 @@ class Game(Frame):
 			Game.text.insert(END, "You are dead. The only thing you can do now is quit.\n")
 		else:
 			# display current room and other info
-			Game.text.insert(END, f"{Game.currentRoom}\nYou are carrying {Game.inventory}\n\n{status}")
+			inv_keys = [list(item.keys())[0] for item in Game.inventory]
+			inv_str = ", ".join(inv_keys)
+			Game.text.insert(END, f"{Game.currentRoom}\nYou are carrying: {inv_str}\n\n{status}")
 		Game.text.config(state=DISABLED)
 
 	# plays the game
@@ -283,14 +285,30 @@ class Game(Frame):
 					# a valid grabbable item is found
 					if (noun == grabbable):
 						# add the grabbable item to the player's inventory
-						Game.inventory.append(grabbable)
-						# remove the grabbable item from the room
-						Game.currentRoom.delGrabbable(grabbable)
-						# set the response (success)
-						response = "Item grabbed."
-						# no need to check any more grabbable items
+						for item in Game.currentRoom.grabbables:
+							if noun in item:
+								Game.inventory.append({noun:Game.currentRoom.grabbables[noun]})
+								# remove the grabbable item from the room
+								Game.currentRoom.delGrabbable(grabbable)
+								# set the response (success)
+								response = "Item grabbed."
+								# no need to check any more grabbable items
+								break
 						break
 
+
+
+			# The verb is: inspect
+			elif (verb == 'inspect'):
+				# set the default response
+				response = "You don't have that item in your inventory"
+
+				# check for the vaild grabable in inventory
+				for item in Game.inventory:
+					# if a vaild item is found
+					if noun in item:
+						response = item[noun]
+						
 		# display the response on the right of the GUI
 		# display the room's image on the left of the GUI
 		# clear the player's input
