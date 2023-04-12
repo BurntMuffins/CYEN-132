@@ -115,10 +115,10 @@ class Game(Frame):
 
 	# creates the rooms
 	def createRooms(self):
-		r1 = Room("Room 1", filePath+"room1.gif") 
-		r2 = Room("Room 2", filePath+"room2.gif") 
-		r3 = Room("Room 3", filePath+"room3.gif") 
-		r4 = Room("Room 4", filePath+"room4.gif") 
+		r1 = Room("Room 1", filePath+"kitchen.gif") 
+		r2 = Room("Room 2", filePath+"study.gif") 
+		r3 = Room("Room 3", filePath+"bathroom.gif") 
+		r4 = Room("Room 4", filePath+"bedroom.gif") 
 
 		# exits for r1
 		r1.addExit("east", r2)
