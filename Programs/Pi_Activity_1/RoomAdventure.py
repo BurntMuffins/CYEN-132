@@ -2,6 +2,8 @@
 # Name: Aidan Schaubhut
 # Date: 
 # Description: 
+# Additions:  - inspect command: Allows you to inspect items in your inventory.
+#             - use command: Allows the user to use certain items in certain rooms.
 ###########################################################################################
 from tkinter import *
 
@@ -115,52 +117,57 @@ class Game(Frame):
 
 	# creates the rooms
 	def createRooms(self):
-		r1 = Room("Room 1", filePath+"kitchen.gif") 
-		r2 = Room("Room 2", filePath+"study.gif") 
-		r3 = Room("Room 3", filePath+"bathroom.gif") 
-		r4 = Room("Room 4", filePath+"bedroom.gif") 
+		r1 = Room("Kitchen", filePath+"kitchen.gif") 
+		r2 = Room("Study", filePath+"study.gif") 
+		r3 = Room("Bathroom", filePath+"bathroom.gif") 
+		r4 = Room("Bedroom", filePath+"bedroom.gif") 
 
+		## KITCHEN ##
 		# exits for r1
-		r1.addExit("east", r2)
-		r1.addExit("south", r3)
+		r1.addExit("study", r2)
+		r1.addExit("bathroom", r3)
 
 		# grabbables for r1
-		r1.addGrabbable("key", 'A golden key with "Chest" written on it')
+		r1.addGrabbable("key", 'A golden key with "Mirror" written on it')
 		
 		# items for r1
 		r1.addItem("chair", "It is made of wicker and no one is sitting on it.")
 		r1.addItem("table", "It is made of oak. A golden key rests on it.")
 
+		## STUDY ##
 		# add exits for r2
-		r2.addExit("west", r1)
-		r2.addExit("south" ,r4)
+		r2.addExit("kitchen", r1)
+		r2.addExit("bedroom" ,r4)
 
 		# add items to r2
 		r2.addItem("rug", "It is nice and Indian. It also needs to be vacuumed.")
-		r2.addItem("fireplace", "It is full of ashes.")
+		r2.addItem("desk", "There is a note on it.")
 
+		# add grabables to r2
+		r2.addGrabbable("note", "I can reflect your image,\nBut theres more to me than meets the eye.\nTo exit this house,\nLook behind me and you'll find the way to fly.")
+
+		## BATHROOM ##
 		# add exits to r3
-		r3.addExit("north", r1)
-		r3.addExit("east", r4)
+		r3.addExit("kitchen", r1)
+		r3.addExit("bedroom", r4)
 
 		# add grabbables to r3
 		r3.addGrabbable("book", 'An old tattered book')
 
 		# add items to r3
-		r3.addItem("bookshelves", "They are empty. Go figure.")
-		r3.addItem("statue", "There is nothing special about it.")
-		r3.addItem("desk", "The statue is resting on it. So is a book.")
+		r3.addItem("sink", "Its kinda dirty.")
+		r3.addItem("toilet", "I am definetly not looking in there.")
+		r3.addItem("mirror", "a mirror with a key hole on it.")
 		
-
+		## BEDROOM ##
 		# add exits to r4
-		r4.addExit("north", r2)
-		r4.addExit("west", r3)
-		r4.addExit("south", None) # DEATH
+		r4.addExit("study", r2)
+		r4.addExit("bathroom", r3)
+		r4.addExit("closet", None) # DEATH
 
 		# add grabbables to r4
-		r4.addGrabbable("6-pack", "This is definetly coming with me")
-		r4.addItem("brew_rig", "Gourd is brewing some sort of oatmeal stout on \
-			the brew rig. A 6-pack is resting beside it.")
+		r4.addGrabbable("bed", "Its shockingly well kept")
+		r4.addItem("dresser", "Its falling apart")
 		
 		# set r1 as the current at the beginning of the game
 		Game.currentRoom = r1
@@ -250,7 +257,7 @@ class Game(Frame):
 		words = action.split()
 
 		# the game only understands two word inputs
-		if (len(words) == 2):
+		if (len(words) >= 2):
 			# isolate the verb and noun
 			verb = words[0]
 			noun = words[1]
@@ -266,6 +273,7 @@ class Game(Frame):
 					Game.currentRoom = Game.currentRoom.exits[noun]
 					# set the response (success)
 					response = "Room changed."
+
 			# the verb is: look
 			elif (verb == "look"):
 				# set a default response
@@ -275,6 +283,7 @@ class Game(Frame):
 				if (noun in Game.currentRoom.items):
 					# if one is found, set the response to the item's description
 					response = Game.currentRoom.items[noun]
+
 			# the verb is: take
 			elif (verb == "take"):
 				# set a default response
@@ -296,8 +305,6 @@ class Game(Frame):
 								break
 						break
 
-
-
 			# The verb is: inspect
 			elif (verb == 'inspect'):
 				# set the default response
@@ -308,6 +315,22 @@ class Game(Frame):
 					# if a vaild item is found
 					if noun in item:
 						response = item[noun]
+
+			# The verb is: use
+			elif (verb == 'use'):
+				if Game.currentRoom.name == "Bathroom":
+					for item in Game.inventory:
+						if noun in item.keys():
+							# do something with the item
+							response = "You opened the mirror!\
+								\nYou found the secret riches hidden in the house!"
+							break
+					else:
+						# the given noun is not in the inventory
+						response = "You don't have that item in your inventory."
+				else:
+					# the player is not in the bathroom
+					response = "There isn't a use for that here."
 						
 		# display the response on the right of the GUI
 		# display the room's image on the left of the GUI
