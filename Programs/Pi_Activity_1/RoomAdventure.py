@@ -8,7 +8,7 @@
 ###########################################################################################
 from tkinter import *
 
-filePath = "Programs/Pi_Activity_1/images/"
+filePath = "images/"
 # the room class
 # note that this class is fully implemented with dictionaries as illustrated in the lesson "More on Data Structures"
 class Room:
