@@ -1,9 +1,10 @@
 ###########################################################################################
 # Name: Aidan Schaubhut
-# Date: 
-# Description: 
+# Date: 4/13/23
+# Description: A room adventure game
 # Additions:  - inspect command: Allows you to inspect items in your inventory.
 #             - use command: Allows the user to use certain items in certain rooms.
+# 			  - Different items, rooms, grabbables
 ###########################################################################################
 from tkinter import *
 
