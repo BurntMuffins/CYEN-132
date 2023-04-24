@@ -22,19 +22,29 @@ class Note(pygame.mixer.Sound):
 
         # generating notes based on waveform
         for t in range(period):
+            # homework changes
+            # sine
             if (t < period / 2):
                 samples[t] = amplitude
             else:
                 samples[t] = -amplitude
+
+            # sawtooth
+            # square
+            # triangle
+            
         return samples
     
 
 
 def wait_for_note_start():
-    while(not GPIO.input(key)):
+    while(True):
+        for key in range(len(keys)):
+            if (GPIO.input(keys[key])):
+                return key
         sleep(0.01)
 
-def wait_for_not_stop():
+def wait_for_not_stop(key):
     while(GPIO.input(key)):
         sleep(0.1)
 
@@ -42,21 +52,23 @@ pygame.mixer.pre_init(MIXER_FREQ, MIXER_SIZE, MIXER_CHANS, MIXER_BUFF)
 pygame.init()
 
 GPIO.setmode(GPIO.BCM)
-key = 20
-freq = 261.6 # c note
+keys = [20, 16, 12, 26]
+freqs = [261.6, 329.6, 392.0, 493.9]
+notes = [] 
 
-GPIO.setup(key, GPIO.IN, GPIO.PUD_DOWN)
+GPIO.setup(keys, GPIO.IN, GPIO.PUD_DOWN)
 
-note = Note(freq, 1)
+for n in range(len(freqs)):
+    notes.append(Note(freqs, 1)) # sound for all loops
 
 print("Welcome to the Touch Piano")
 print("Press CTRL+C")
 
 try:
     while True:
-        wait_for_note_start()
-        note.play(-1)
-        wait_for_not_stop()
-        note.stop()
+        key = wait_for_note_start()
+        notes[key].play(-1)
+        wait_for_not_stop(keys[key])
+        notes[key].stop()
 except KeyboardInterrupt:
     GPIO.cleanup()
